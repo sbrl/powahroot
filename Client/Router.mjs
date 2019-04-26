@@ -2,7 +2,18 @@
 
 import EventEmitter from 'event-emitter-es6';
 
+import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
+
+/**
+ * Client-side request router.
+ * @extends EventEmitter
+ */
 class ClientRouter extends EventEmitter {
+	/**
+	 * Creates a new client-side request router.
+	 * You should use this in a browser. If you're not in a browser, you probably want ServerRouter instead.
+	 * @param	{object}	options	The options object to use when creating the router.
+	 */
 	constructor(options) {
 		super();
 		
@@ -30,18 +41,34 @@ class ClientRouter extends EventEmitter {
 		}).bind(this));
 	}
 	
+	/**
+	 * Sets the function to execute when no other route could be matched.
+	 * @param	{Function}	callback The callback to execute.
+	 * @example router.add_404((path) => console.log(`Oops! Couldn't find a route to handle '${path}'.`));
+	 */
 	add_404(callback) {
 		this.callback_404 = callback;
 	}
 	
+	/**
+	 * Adds a route to the router.
+	 * @param	{string|RegExp}	routespec	The route specification that the route should match against. May contain regular expression syntax, and the domain-specific :param syntax. A raw regular expression may also be passed, if you need the flexibility.
+	 * @param	{Function}	callback	The callback to execute when the route is matched.
+	 * @example router.add_page("/add/vegetable/:name/:weight", (params) => console.log(`We added a ${params.name} with a weight of ${params.weight}g.`));
+	 */
 	add_page(routespec, callback) {
 		this.routes.push({
 			spec: routespec,
-			match: this.pathspec_to_regex(routespec),
+			match: pathspec instanceof RegExp ? { regex: routespec, tokens: [] } : pathspec_to_regex(routespec),
 			callback
 		});
 	}
 	
+	/**
+	 * Manually navigate to a given path.
+	 * @param	{string}	path	The path to navigate to.
+	 * @example router.navigate("/add/carrot/frederick/10001");
+	 */
 	navigate(path) {
 		for(let route_info of this.routes) {
 			const matches = path.match(route_info.match.regex);
@@ -71,34 +98,12 @@ class ClientRouter extends EventEmitter {
 			this.callback_404(path);
 	}
 	
+	/**
+	 * Navigate to the current URL's hash value - i.e. the bit after the '#' symbol in the URL.
+	 * @example router.navigate_current_hash();
+	 */
 	navigate_current_hash() {
 		this.navigate(window.location.hash.substr(1));
-	}
-	
-	/**
-	 * Converts a path specification into a regular expression.
-	 * From the server-side sibling of this (client-side) router.
-	 * @param	{string}	pathspec	The path specification to convert.
-	 * @return	{RegExp}	The resulting regular expression
-	 */
-	pathspec_to_regex(pathspec) {
-		if(pathspec == "*") // Support wildcards
-			return { regex: /^/, tokens: [] };
-		
-		let tokens = [];
-		let regex = new RegExp("^" + pathspec.replace(/::?([a-zA-Z0-9\-_]+)/g, (substr/*, index, template (not used)*/) => {
-			tokens.push(substr.replace(/:/g, ""));
-			
-			// FUTURE: We could add optional param support here too
-			if(substr.startsWith("::"))
-				return `(.+)`;
-			else
-				return `([^\/]+)`; 
-		}) + "$", "i");
-		
-		if(this.verbose) console.info("[router/verbose] Created regex", regex);
-		
-		return { regex, tokens };
 	}
 }
 

@@ -1,6 +1,7 @@
 "use strict";
 
 import RouterContext from './RouterContext.mjs';
+import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
 
 /**
  * A standalone HTTP router that's based on the principle of middleware.
@@ -50,7 +51,7 @@ class Router
 	 * @param	{Function}		action		The action to execute. Will be passed the parameters `context` (Object) and `next` (Function).
 	 */
 	on(methods, pathspec, action) {
-		let regex_info = pathspec instanceof RegExp ? {regex: pathspec, tokens: [] } : this.pathspec_to_regex(pathspec);
+		let regex_info = pathspec instanceof RegExp ? {regex: pathspec, tokens: [] } : pathspec_to_regex(pathspec);
 		
 		// next must be a generator that returns each action in turn
 		this.actions.push(async (context, next) => {
@@ -91,31 +92,6 @@ class Router
 			else
 				await next(context);
 		})
-	}
-	
-	/**
-	 * Converts a path specification into a regular expression.
-	 * @param	{string}	pathspec	The path specification to convert.
-	 * @return	{RegExp}	The resulting regular expression
-	 */
-	pathspec_to_regex(pathspec) {
-		if(pathspec == "*") // Support wildcards
-			return { regex: /^/, tokens: [] };
-		
-		let tokens = [];
-		let regex = new RegExp("^" + pathspec.replace(/::?([a-zA-Z0-9\-_]+)/g, (substr/*, index, template (not actually used)*/) => {
-			tokens.push(substr.replace(/:/g, ""));
-			
-			// FUTURE: We could add optional param support here too
-			if(substr.startsWith("::"))
-				return `(.+)`;
-			else
-				return `([^\/]+)`; 
-		}) + "$", "i");
-		
-		/*if(this.verbose)*/ console.error("[router/verbose] Created regex", regex);
-		
-		return { regex, tokens };
 	}
 	
 	/**
