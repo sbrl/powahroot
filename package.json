@@ -1,0 +1,29 @@
+{
+  "name": "powerroot",
+  "version": "1.0.0",
+  "description": "Client and server-side routing micro frameworks",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sbrl/powerroot.git"
+  },
+  "keywords": [
+    "routing",
+    "micro-framework"
+  ],
+  "author": "Starbeamrainbowlabs",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/sbrl/powerroot/issues"
+  },
+  "homepage": "https://github.com/sbrl/powerroot#readme",
+  "dependencies": {
+    "nightink": "^0.1.2"
+  },
+  "devDependencies": {
+    "event-emitter-es6": "^1.1.5"
+  }
+}
