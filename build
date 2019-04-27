@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# Make sure the current directory is the location of this script to simplify matters
+cd "$(dirname $(readlink -f $0))";
+################
+### Settings ###
+################
+
+# The name of this project
+project_name="powahroot";
+
+# The path to the lantern build engine git submodule
+lantern_path="./lantern-build-engine";
+
+###
+# Custom Settings
+###
+
+# Put any custom settings here.
+docs_output_folder="./docs";
+
+###############################################################################
+
+# Check out the lantern git submodule if needed
+if [ ! -f "${lantern_path}/lantern.sh" ]; then git submodule update --init "${lantern_path}"; fi
+
+source "${lantern_path}/lantern.sh";
+
+if [[ "$#" -lt 1 ]]; then
+	echo -e "${FBLE}${project_name}${RS} build script";
+	echo -e "    by Starbeamrainbowlabs";
+	echo -e "${LC}Powered by the lantern build engine, v${version}${RS}";
+	echo -e "";
+	echo -e "${CSECTION}Usage${RS}";
+	echo -e "    ./build ${CTOKEN}{action}${RS} ${CTOKEN}{action}${RS} ${CTOKEN}{action}${RS} ...";
+	echo -e "";
+	echo -e "${CSECTION}Available actions${RS}";
+	echo -e "    ${CACTION}setup${RS}    - Perform initial setup";
+	echo -e "    ${CACTION}docs${RS}     - Render the API docs to HTML";
+	echo -e "    ${CACTION}archive${RS}  - Create an archive of CI artifacts";
+	echo -e "    ${CACTION}ci${RS}       - Do CI tasks";
+	echo -e "";
+	
+	exit 1;
+fi
+
+###############################################################################
+
+task_setup() {
+	
+	task_begin "Checking environment";
+	check_command git true;
+	check_command node true;
+	check_command npm true;
+	check_command jq true;
+	task_end $?;
+	
+	task_begin "Initialising submodules";
+	git submodule update --init;
+	task_end $? "Failed to initialise submodules";
+	
+	task_begin "Installing dependencies";
+	npm install;
+	task_end $? "Failed to install dependencies";
+}
+
+task_docs() {
+	task_begin "Rendering API docs";
+	
+	subtask_begin "Calling 'documentation'";
+	node_modules/.bin/documentation build --output "${docs_output_folder}" --format html --favicon "logo.png" "$(jq --raw-output .main <package.json)";
+	subtask_end $? "'documentation' exited with an error";
+	
+	subtask_begin "Linking logo to docs folder";
+	cp -al "logo.png" "${docs_output_folder}/logo.png";
+	subtask_end $? "Failed to link logo";
+	
+	task_end $? "Failed to render API docs";
+}
+
+task_archive() {
+	task_end 1 "Error: Not implemented";
+}
+
+task_deploy() {
+	task_end 1 "Error: Not implemented"
+}
+
+task_ci() {
+	tasks_run setup docs archive deploy;
+}
+
+###############################################################################
+
+tasks_run $@;
