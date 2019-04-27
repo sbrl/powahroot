@@ -1,0 +1,52 @@
+:root {
+	--main-a: #9f1232;
+	--main-b: #8c0f2b;
+	--main-c: #730c24;
+	
+	--green-a: #2d5203;
+	--green-b: #345c05;
+	--green-c: #366500;
+	--green-d: #478105;
+	
+	--bright-a: #ffa900;
+	--bright-b: #ff9200;
+	--bright-c: #ff7c00;
+	
+	--light-a: #ede566;
+	--light-b: #e0d742;
+	--light-c: #cec31a;
+	
+	--gutter-width: 20px;
+}
+
+
+.documentation.documentation {
+	background: var(--green-c);
+	color: var(--main-b);
+}
+
+#split-left, h1, h2, h3, h4, h5, h6 {
+	color: var(--bright-c) !important;
+}
+
+.gutter.gutter.gutter-horizontal {
+	background: var(--main-a);
+}
+.gutter.gutter.gutter-horizontal::after {
+	height: 100vh;
+	display: flex;
+	align-items: center; text-align: center;
+	
+	
+	color: var(--main-c);
+	
+	content: ".. .. .. ..";
+	line-height: 0.35em;
+	
+	font-weight: bolder;
+	font-size: 150%;
+}
+
+.bg-white.bg-white, #split-right {
+	background: var(--light-a);
+}

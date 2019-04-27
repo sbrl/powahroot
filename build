@@ -34,10 +34,11 @@ if [[ "$#" -lt 1 ]]; then
 	echo -e "    ./build ${CTOKEN}{action}${RS} ${CTOKEN}{action}${RS} ${CTOKEN}{action}${RS} ...";
 	echo -e "";
 	echo -e "${CSECTION}Available actions${RS}";
-	echo -e "    ${CACTION}setup${RS}    - Perform initial setup";
-	echo -e "    ${CACTION}docs${RS}     - Render the API docs to HTML";
-	echo -e "    ${CACTION}archive${RS}  - Create an archive of CI artifacts";
-	echo -e "    ${CACTION}ci${RS}       - Do CI tasks";
+	echo -e "    ${CACTION}setup${RS}         - Perform initial setup";
+	echo -e "    ${CACTION}docs${RS}          - Render the API docs to HTML";
+	echo -e "    ${CACTION}docs-watch${RS}    - Auto-update the docs on source file modification";
+	echo -e "    ${CACTION}archive${RS}       - Create an archive of CI artifacts";
+	echo -e "    ${CACTION}ci${RS}            - Do CI tasks";
 	echo -e "";
 	
 	exit 1;
@@ -67,14 +68,36 @@ task_docs() {
 	task_begin "Rendering API docs";
 	
 	subtask_begin "Calling 'documentation'";
-	node_modules/.bin/documentation build --output "${docs_output_folder}" --format html --favicon "logo.png" "$(jq --raw-output .main <package.json)";
+	node_modules/.bin/documentation build --github --output "${docs_output_folder}" --format html --favicon "logo.png" "$(jq --raw-output .main <package.json)";
 	subtask_end $? "'documentation' exited with an error";
 	
 	subtask_begin "Linking logo to docs folder";
 	cp -al "logo.png" "${docs_output_folder}/logo.png";
 	subtask_end $? "Failed to link logo";
 	
+	subtask_begin "Applying extra CSS";
+	cat docs.css >>"$(find "${docs_output_folder}" -iname "*.css" -print -quit)";
+	subtask_end $? "Failed to apply additional CSS";
+	
 	task_end $? "Failed to render API docs";
+}
+
+task_docs-watch() {
+	check_command inotifywait;
+	set_title "Docs Watcher";
+	
+	echo -e "Watching for changes.";
+	while :; do # : = infinite loop
+		# Wait for an update
+		# inotifywait's non-0 exit code forces an exit for some reason :-/
+		inotifywait -qr --event modify --format '%:e %f' $(find . -iname "*.mjs" -not -path "./node_modules/*") ./docs.css;
+		
+		# Rebuild the docs
+		# This exits on error because of stage_end - we need add a way to make the exit on non-zero optional to lantern
+		stage_begin "Rebuilding docs";
+		tasks_run docs;
+		stage_end $?;
+	done
 }
 
 task_archive() {
