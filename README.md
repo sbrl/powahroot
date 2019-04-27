@@ -9,8 +9,6 @@ _Powahroot_ is a pair of micro routing frameworks, presented as an ES6 module:
 
 It's based on [`rill`](https://www.npmjs.com/package/rill) (see the npm package bearing the name), but stripped down and simplified.
 
-**Documentation is work-in-progress!**
-
 
 ## Getting Started
 Install powahroot as a dependency with npm:
@@ -41,7 +39,6 @@ Syntax							| Meaning
 `/add/vegetable/:name/:weight`	| Parameters. Match values an pull them into an object automatically. Does not like forward slashes in parameter values.
 `/images/::path`				| Parameter values with forward slashes. If you want to use parameters, but need values to be able to contain forward slashes `/`, this is for you. Don't forget you can mix-and-match this with the previous example!
 
-
 ### Client
 Initialise a new router like this:
 
@@ -54,7 +51,16 @@ const router = new ClientRouter({
 ```
 
 ### Server
-TODO: Finish this section
+The server router works slightly differently, to account for the different environment it's designed for. Here's how to use it:
+
+```js
+const router = new ServerRouter();
+router.on_all(async (context, next) => { console.debug(context.url); await next()})
+router.get("/files/::filepath", (context, _next) => context.send.plain(200, `You requested ${context.params.filepath}`));
+// .....
+```
+
+The `context` argument there is of type `RouterContext`. Check out the API reference (link below) to learn about the other useful properties it has.
 
 ### Reference
 TODO: Generate reference from code automatically

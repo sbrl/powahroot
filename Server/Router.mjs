@@ -12,7 +12,11 @@ import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
 class ServerRouter
 {
 	constructor(verbose = false) {
-		/** The actions to run in turn. */
+		/**
+		 * The actions to run in turn.
+		 * @private
+		 * @type {Array<Function>}
+		 */
 		this.actions = [];
 		/** Whether to activate versbose mode. Useful for debugging the router. */
 		this.verbose = verbose;
@@ -75,10 +79,10 @@ class ServerRouter
 	
 	/**
 	 * Execute the specified action for requests matching the given parameters.
-	 * TODO: Consider merging with on_all and refactoring to take an object literal which we cna destructure instead
+	 * TODO: Consider merging with on_all and refactoring to take an object literal which we can destructure instead
 	 * @param	{array}			methods		The HTTP methods to run the action for. Include '*' to specify all methods.
 	 * @param	{string|regex}	pathspec	The specification of the paths that this action should match against. May be a regular expression.
-	 * @param	{Function}		action		The action to execute. Will be passed the parameters `context` (Object) and `next` (Function).
+	 * @param	{Function}		action		The action to execute. Will be passed the parameters `context` (RouterContext) and `next` (Function).
 	 */
 	on(methods, pathspec, action) {
 		let regex_info = pathspec instanceof RegExp ? {regex: pathspec, tokens: [] } : pathspec_to_regex(pathspec);
@@ -171,6 +175,7 @@ class ServerRouter
 	/**
 	 * Iterates over all the generated middleware.
 	 * @return {Generator} A generator that returns each successive piece of middleware in turn.
+	 * @generator
 	 */
 	*iterate() {
 		for(let action of this.actions) {
