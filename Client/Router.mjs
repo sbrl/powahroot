@@ -6,14 +6,13 @@ import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
 
 /**
  * Client-side request router.
- * @extends EventEmitter
+ * You should use this in a browser. If you're not in a browser, you probably want ServerRouter instead.
+ * @extends		EventEmitter
+ * @param		{object}	options	The options object to use when creating the router.
+ * @property	{Boolean}	verbose	Whether to be verbose and log debugging information to the console.
+ * @property	{Boolean}	listen_pushstate	Whether to listen to the browser's `pushstate` event and automatically navigate on recieving it.
  */
 class ClientRouter extends EventEmitter {
-	/**
-	 * Creates a new client-side request router.
-	 * You should use this in a browser. If you're not in a browser, you probably want ServerRouter instead.
-	 * @param	{object}	options	The options object to use when creating the router.
-	 */
 	constructor(options) {
 		super();
 		

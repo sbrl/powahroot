@@ -7,6 +7,7 @@ import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
  * A standalone HTTP router that's based on the principle of middleware.
  * Based on rill (see the npm package bearing the name), but stripped down and 
  * simplified.
+ * @param	{Boolean}	verbose		Whether to be verbose and log a bunch of things to the console. Useful for debugging.
  */
 class Router
 {
@@ -28,19 +29,48 @@ class Router
 		}
 	}
 	
-	/** Shortcut function for attaching an action to any request method. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to any request method.
+	 * Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Function}		action		The function to execute when this route is matches.gets passed 2 parameters: context (or type RequestContext) and next (a function). context contains the request / response objects, and next() should be called if the action is middleware.
+	 */
 	any(pathspec, action) { this.on("*", pathspec, action); }
-	/** Shortcut function for attaching an action to head requests. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to head requests. Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Fuction}		action		The function to execute.
+	 */
 	head(pathspec, action) { this.on(["head"], pathspec, action); }
-	/** Shortcut function for attaching an action to get requests. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to get requests. Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Fuction}	action	The function to execute.
+	 */
 	get(pathspec, action) { this.on(["get"], pathspec, action); }
-	/** Shortcut function for attaching an action to post requests. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to post requests. Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Fuction}	action	The function to execute.
+	 */
 	post(pathspec, action) { this.on(["post"], pathspec, action); }
-	/** Shortcut function for attaching an action to put requests. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to put requests. Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Fuction}	action	The function to execute.
+	 */
 	put(pathspec, action) { this.on(["put"], pathspec, action); }
-	/** Shortcut function for attaching an action to delete requests. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to delete requests. Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Fuction}	action	The function to execute.
+	 */
 	delete(pathspec, action) { this.on(["delete"], pathspec, action); }
-	/** Shortcut function for attaching an action to options requests. Full function: on */
+	/**
+	 * Shortcut function for attaching an action to options requests. Full function: on
+	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
+	 * @param	{Fuction}	action	The function to execute.
+	 */
 	options(pathspec, action) { this.on(["options"], pathspec, action); }
 	
 	/**
@@ -73,6 +103,11 @@ class Router
 		});
 	}
 	
+	/**
+	 * Adds a route that matches against every request.
+	 * Usually useful for middleware (e.g. error handlers, request loggers, authentication handlers, etc.).
+	 * @param	{Function}	action	The function to execute.
+	 */
 	on_all(action) {
 		this.actions.push(action);
 	}
@@ -113,6 +148,8 @@ class Router
 	 * item of middleware.
 	 * It achieves this via a combination of a generator, anonymous function
 	 * scope abuse, being recursive, and magic.
+	 * You shouldn't need to call this directly.
+	 * @private
 	 * @param	 {Generator}	iterator	The generator that emits the middleware.
 	 * @param	{Object}		context		The context of the request.
 	 * @return	{Function}					A magic next function.

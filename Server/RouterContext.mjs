@@ -1,11 +1,9 @@
 "use strict";
 
-// core
 import url from 'url';
-// npm
-import cookie from 'cookie';
-// files
+
 import Sender from './Sender.mjs';
+import RequestEnvironment from './RequestEnvironment.mjs';
 
 /**
  * Contains context information about a single request / response pair.
@@ -45,28 +43,7 @@ class RouterContext {
 		 * go in here.
 		 * @type	{Object}
 		 */
-		this.env = {
-			/**
-			 * Whether the user is logged in or not.
-			 * @type {Boolean}
-			 */
-			logged_in: false,
-			/**
-			 * The user's name. Guaranteed to be specified - if only as "anonymous".
-			 * @type {String}
-			 */
-			username: "anonymous",
-			/**
-			 * The parsed cookie object
-			 * @type {Object}
-			 */
-			cookie: cookie.parse(this.request.headers["cookie"] || ""),
-			/**
-			 * The parsed post data as an object, if applicable.
-			 * @type {Object|null}
-			 */
-			post_data: null
-		};
+		this.env = new RequestEnvironment(this.request);
 	}
 }
 

@@ -2,6 +2,10 @@
 
 import { NightInkFile } from 'nightink';
 
+/**
+ * Helper methods for quickly sending responses to clients.
+ * @param	{http.ServerResponse}	response	The response object to use when sending requests.
+ */
 class Sender {
 	constructor(response) {
 		this.response = response;
