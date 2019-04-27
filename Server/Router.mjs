@@ -9,7 +9,7 @@ import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
  * simplified.
  * @param	{Boolean}	verbose		Whether to be verbose and log a bunch of things to the console. Useful for debugging.
  */
-class Router
+class ServerRouter
 {
 	constructor(verbose = false) {
 		/** The actions to run in turn. */
@@ -179,4 +179,4 @@ class Router
 	}
 }
 
-export default Router;
+export default ServerRouter;
