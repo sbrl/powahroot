@@ -63,7 +63,9 @@ router.get("/files/::filepath", (context, _next) => context.send.plain(200, `You
 The `context` argument there is of type `RouterContext`. Check out the API reference (link below) to learn about the other useful properties it has.
 
 ### Reference
-TODO: Generate reference from code automatically
+API docs are generated automatically. View them here:
+
+<https://starbeamrainbowlabs.com/code/powahroot/docs/>
 
 ## Licence
 Everything in this repository _except_ the logo is licenced under the _Mozilla Public License 2.0.
