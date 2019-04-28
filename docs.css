@@ -71,3 +71,6 @@
 	background: var(--bright-a);
 	border: 0.1em solid var(--bright-b);
 }
+::placeholder {
+	color: var(--green-d);
+}
