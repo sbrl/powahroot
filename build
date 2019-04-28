@@ -18,6 +18,13 @@ lantern_path="./lantern-build-engine";
 # Put any custom settings here.
 docs_output_folder="./docs";
 
+# Deployment settings
+deploy_ssh_user="ci";
+deploy_ssh_host="starbeamrainbowlabs.com";
+deploy_ssh_port=2403;
+
+deploy_root_dir="powahroot";
+
 ###############################################################################
 
 # Check out the lantern git submodule if needed
@@ -101,11 +108,63 @@ task_docs-watch() {
 }
 
 task_archive() {
-	task_end 1 "Error: Not implemented";
+	task_begin "Packing archive";
+	tar caf "${ARCHIVE}/powahroot.tar.bz2" "${docs_output_folder}";
+	task_end $?;
 }
 
 task_deploy() {
-	task_end 1 "Error: Not implemented"
+	stage_begin "Deploying to ${deploy_ssh_host}....";
+	if [ "${SSH_KEY_PATH}" == "" ]; then
+		echo "${FRED}${HC}Error: Can't find the SSH key as the environment variable SSH_KEY_PATH isn't set.${RS}" >&2;
+		stage_end 1;
+	fi
+	
+	
+	task_begin "Preparing upload";
+	subtask_begin "Unwinding symlinks";
+	find "${docs_output_folder}" -type l -exec bash -c 'ln -f "$(readlink -m "$0")" "$0"' {} \;
+	subtask_end $?;
+	task_end $?;
+	
+	
+	task_begin "Uploading Release";
+	
+	# Acquire an exclusive project-wide lock so that we only upload stuff one-at-a-time
+	subtask_begin "Acquiring upload lock";
+	exec 9<"${WORKSPACE}";
+	flock --exclusive 9;
+	subtask_end $? "Failed to acquire lock!";
+	
+	
+	lftp_commands_filename="$(mktemp --suffix "-commands.lftp")";
+	(
+		echo "set sftp:connect-program 'ssh -x -i ${SSH_KEY_PATH}'";
+		# We have an extra : before the @ here to avoid the password prompt
+		echo "connect sftp://${deploy_ssh_user}:@${deploy_ssh_host}:${deploy_ssh_port}";
+		echo "rm -r \"${deploy_root_dir}/docs\"";
+		echo "bye";
+	) >"${lftp_commands_filename}";
+	
+	execute lftp --version;
+	execute cat "${lftp_commands_filename}";
+	execute lftp -f "${lftp_commands_filename}";
+	exit_code=$?
+	
+	sftp -i "${SSH_KEY_PATH}" -P "${deploy_ssh_port}" -o PasswordAuthentication=no "${deploy_ssh_user}@${deploy_ssh_host}" << SFTPCOMMANDS
+mkdir ${deploy_root_dir}/docs
+put -r ${source_upload_dir}/* ${deploy_root_dir}/docs/
+bye
+SFTPCOMMANDS
+
+	subtask_begin "Releasing lock";
+	exec 9>&- # Close file descriptor 9 and release the lock
+	subtask_end $?;
+	
+	task_end "${exit_code}" "Failed to upload release";
+	
+	
+	stage_end $? "Failed to deploy to ${deploy_ssh_host}.";
 }
 
 task_ci() {
