@@ -8,6 +8,7 @@
 	--green-c: #366500;
 	--green-d: #478105;
 	
+	--bright-a-tr: hsla(39, 100%, 50%, 0.4);
 	--bright-a: #ffa900;
 	--bright-b: #ff9200;
 	--bright-c: #ff7c00;
@@ -16,9 +17,15 @@
 	--light-b: #e0d742;
 	--light-c: #cec31a;
 	
+	--logo-size: 7em;
 	--gutter-width: 20px;
 }
 
+#split-left h3 {
+	image-rendering: crisp-edges;
+	background: url(../logo.png) top left / var(--logo-size) no-repeat;
+	padding-top: calc(var(--logo-size) + 1em);
+}
 
 .documentation.documentation {
 	background: var(--green-c);
@@ -49,4 +56,18 @@
 
 .bg-white.bg-white, #split-right {
 	background: var(--light-a);
+}
+.minishadow.minishadow {
+	box-shadow: initial;
+	border-bottom: 0.5em solid var(--light-b);
+}
+.border-bottom.border-bottom {
+	border-bottom: 0.1em solid var(--light-b);
+}
+.fill-light.fill-light {
+	background: var(--bright-a-tr);
+}
+.input.input {
+	background: var(--bright-a);
+	border: 0.1em solid var(--bright-b);
 }
