@@ -5,7 +5,7 @@
  * @param	{Boolean}	verbose		Optional. Whether to be verbose and log some stuff to the console. Default: false
  * @return	{RegExp}	The resulting regular expression
  */
-function pathspec_to_regex(pathspec, verbose = false) {
+export default function pathspec_to_regex(pathspec, verbose = false) {
 	if(pathspec == "*") // Support wildcards
 		return { regex: /^/, tokens: [] };
 	
@@ -24,5 +24,3 @@ function pathspec_to_regex(pathspec, verbose = false) {
 	
 	return { regex, tokens };
 }
-
-export { pathspec_to_regex };

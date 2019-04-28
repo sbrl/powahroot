@@ -2,7 +2,7 @@
 
 import EventEmitter from 'event-emitter-es6';
 
-import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
+import pathspec_to_regex from '../Shared/Pathspec.mjs';
 
 /**
  * Client-side request router.

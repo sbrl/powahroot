@@ -1,7 +1,7 @@
 "use strict";
 
 import RouterContext from './RouterContext.mjs';
-import { pathspec_to_regex } from '../Shared/Pathspec.mjs';
+import pathspec_to_regex from '../Shared/Pathspec.mjs';
 
 /**
  * A standalone HTTP router that's based on the principle of middleware.
