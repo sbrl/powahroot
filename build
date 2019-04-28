@@ -120,23 +120,19 @@ task_deploy() {
 		stage_end 1;
 	fi
 	
-	
 	task_begin "Preparing upload";
 	subtask_begin "Unwinding symlinks";
 	find "${docs_output_folder}" -type l -exec bash -c 'ln -f "$(readlink -m "$0")" "$0"' {} \;
 	subtask_end $?;
 	task_end $?;
 	
-	
-	task_begin "Uploading Release";
-	
 	# Acquire an exclusive project-wide lock so that we only upload stuff one-at-a-time
-	subtask_begin "Acquiring upload lock";
+	task_begin "Acquiring upload lock";
 	exec 9<"${WORKSPACE}";
 	flock --exclusive 9;
-	subtask_end $? "Failed to acquire lock!";
+	task_end $? "Failed to acquire lock!";
 	
-	
+	task_begin "Cleaning up old release";
 	lftp_commands_filename="$(mktemp --suffix "-commands.lftp")";
 	(
 		echo "set sftp:connect-program 'ssh -x -i ${SSH_KEY_PATH}'";
@@ -149,20 +145,19 @@ task_deploy() {
 	execute lftp --version;
 	execute cat "${lftp_commands_filename}";
 	execute lftp -f "${lftp_commands_filename}";
-	exit_code=$?
+	task_end $? "Failed to cleanup old release";
 	
+	task_begin "Uploading new release";
 	sftp -i "${SSH_KEY_PATH}" -P "${deploy_ssh_port}" -o PasswordAuthentication=no "${deploy_ssh_user}@${deploy_ssh_host}" << SFTPCOMMANDS
 mkdir ${deploy_root_dir}/docs
 put -r ${docs_output_folder}/* ${deploy_root_dir}/docs/
 bye
 SFTPCOMMANDS
+	task_end $? "Failed to upload new release";
 
 	subtask_begin "Releasing lock";
 	exec 9>&- # Close file descriptor 9 and release the lock
 	subtask_end $?;
-	
-	task_end "${exit_code}" "Failed to upload release";
-	
 	
 	stage_end $? "Failed to deploy to ${deploy_ssh_host}.";
 }
