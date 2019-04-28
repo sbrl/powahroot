@@ -74,9 +74,19 @@ task_setup() {
 task_docs() {
 	task_begin "Rendering API docs";
 	
+	subtask_begin "Altering git remote";
+	remote_name="$(git remote | head -n1)";
+	remote_url="$(git remote get-url "${remote_name}")";
+	git remote set-url "${remote_name}" "https://github.com/sbrl/powahroot.git";
+	subtask_end $? "Failed to alter git remote";
+	
 	subtask_begin "Calling 'documentation'";
 	node_modules/.bin/documentation build --github --output "${docs_output_folder}" --format html --favicon "logo.png" "$(jq --raw-output .main <package.json)";
 	subtask_end $? "'documentation' exited with an error";
+	
+	subtask_begin "Reverting git remote alteration";
+	git remote set-url "${remote_name}" "${remote_url}";
+	subtask_end $? "Failed to revert remote alteration";
 	
 	subtask_begin "Linking logo to docs folder";
 	cp -al "logo.png" "${docs_output_folder}/logo.png";
