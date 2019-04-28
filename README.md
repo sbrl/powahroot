@@ -36,7 +36,7 @@ Syntax							| Meaning
 Initialise a new router like this:
 
 ```js
-import { ClientRouter } from 'powahroot';
+import ClientRouter from 'powahroot/Client.mjs';
 
 // ....
 
@@ -51,7 +51,7 @@ const router = new ClientRouter({
 The server router works slightly differently, to account for the different environment it's designed for. Here's how to use it:
 
 ```js
-import { ServerRouter } from 'powahroot';
+import ServerRouter from 'powahroot/Server.mjs';
 
 // ....
 

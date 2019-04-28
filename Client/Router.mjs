@@ -58,7 +58,7 @@ class ClientRouter extends EventEmitter {
 	add_page(routespec, callback) {
 		this.routes.push({
 			spec: routespec,
-			match: pathspec instanceof RegExp ? { regex: routespec, tokens: [] } : pathspec_to_regex(routespec),
+			match: routespec instanceof RegExp ? { regex: routespec, tokens: [] } : pathspec_to_regex(routespec),
 			callback
 		});
 	}
