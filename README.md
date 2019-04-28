@@ -17,15 +17,8 @@ Install powahroot as a dependency with npm:
 npm install --save powahroot
 ```
 
-Then `import` the router you're after:
+If your build process supports [tree-shaking](https://webpack.js.org/guides/tree-shaking/), only the router(s?) you need will be included in the final output of your build - as _powahroot_ uses ES6 modules.
 
-```js
-import { ServerRouter } from 'powahroot';
-```
-
-```js
-import { ClientRouter } from 'powahroot';
-```
 
 ## Usage
 
@@ -43,6 +36,10 @@ Syntax							| Meaning
 Initialise a new router like this:
 
 ```js
+import { ClientRouter } from 'powahroot';
+
+// ....
+
 const router = new ClientRouter({
 	// Options object. Default settings:
 	verbose: false, // Whether to be verbose in console.log() messages
@@ -54,6 +51,10 @@ const router = new ClientRouter({
 The server router works slightly differently, to account for the different environment it's designed for. Here's how to use it:
 
 ```js
+import { ServerRouter } from 'powahroot';
+
+// ....
+
 const router = new ServerRouter();
 router.on_all(async (context, next) => { console.debug(context.url); await next()})
 router.get("/files/::filepath", (context, _next) => context.send.plain(200, `You requested ${context.params.filepath}`));
@@ -62,7 +63,7 @@ router.get("/files/::filepath", (context, _next) => context.send.plain(200, `You
 
 The `context` argument there is of type `RouterContext`. Check out the API reference (link below) to learn about the other useful properties it has.
 
-### Reference
+## Reference
 API docs are generated automatically. View them here:
 
 <https://starbeamrainbowlabs.com/code/powahroot/docs/>
