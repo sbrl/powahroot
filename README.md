@@ -68,6 +68,10 @@ API docs are generated automatically. View them here:
 
 <https://starbeamrainbowlabs.com/code/powahroot/docs/>
 
+## Contributing
+Contributions are welcome! Simply fork this repository, make your changes, and submit a [Pull Request](https://help.github.com/en/articles/about-pull-requests) (issues are welcome too!).
+
+All contributions must be declared to have the `Mozilla Public License 2.0` (the same license that this repository is under).
 
 ## Licence
 Everything in this repository _except_ the logo is licenced under the _Mozilla Public License 2.0.
