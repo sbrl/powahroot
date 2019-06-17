@@ -3,3 +3,6 @@ docs/
 .tern-project
 logo.piskel
 logo-large.png
+docs.css
+build
+.gitmodules
