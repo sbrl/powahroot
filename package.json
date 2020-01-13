@@ -19,7 +19,7 @@
 	"bugs": {
 		"url": "https://github.com/sbrl/powerroot/issues"
 	},
-	"homepage": "https://github.com/sbrl/powerroot#readme",
+	"homepage": "https://github.com/sbrl/powahroot#readme",
 	"dependencies": {
 		"cookie": "^0.4.0",
 		"nightink": "^0.1.3"

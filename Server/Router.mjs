@@ -44,18 +44,31 @@ class ServerRouter
 	 * Shortcut function for attaching an action to head requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
 	 * @param	{Fuction}		action		The function to execute.
+	 * @example
+	 * router.head("/location/:name/status", (context, _next) => {
+	 * 	context.send.plain(200, `Coming in from ${context.params.type} - status ok!`);
+	 * });
 	 */
 	head(pathspec, action) { this.on(["head"], pathspec, action); }
 	/**
 	 * Shortcut function for attaching an action to get requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
 	 * @param	{Fuction}	action	The function to execute.
+	 * @example
+	 * router.get("/tree/:type", (context, _next) => {
+	 * 	context.send.plain(200, `Hello, I am a ${context.params.type}`);
+	 * });
 	 */
 	get(pathspec, action) { this.on(["get"], pathspec, action); }
 	/**
 	 * Shortcut function for attaching an action to post requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
 	 * @param	{Fuction}	action	The function to execute.
+	 * @example
+	 * router.post("/loaction/:name/update", (context, _next) => {
+	 * 	context.send.plain(501, `Hello from ${context.params.name}! I don't yet support updating my firmware.\nYou asked me to update to version ${context.post_data.version}.`);
+	 * 	// See https://github.com/sbrl/powahroot/blob/master/examples/parse_post_data.mjs for an example of parsing post data with middleware that works with the above (context.post_data is not created automatically by powahroot)
+	 * });
 	 */
 	post(pathspec, action) { this.on(["post"], pathspec, action); }
 	/**
@@ -74,6 +87,10 @@ class ServerRouter
 	 * Shortcut function for attaching an action to options requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
 	 * @param	{Fuction}	action	The function to execute.
+	 * @example
+	 * router.options("/location/:name/status", (context, _next) => {
+	 * 	context.send.plain(200, `I support these actions:\n - GET: Get my status\n - POST: Set my status\n - OPTIONS: Show this message`);;
+	 * });
 	 */
 	options(pathspec, action) { this.on(["options"], pathspec, action); }
 	
@@ -83,6 +100,10 @@ class ServerRouter
 	 * @param	{array}			methods		The HTTP methods to run the action for. Include '*' to specify all methods.
 	 * @param	{string|regex}	pathspec	The specification of the paths that this action should match against. May be a regular expression.
 	 * @param	{Function}		action		The action to execute. Will be passed the parameters `context` (RouterContext) and `next` (Function).
+	 * @example
+	 * router.on(["get"], "/garden/:vegetable", (context) => {
+	 * 	context.send(201, `Planted ${context.params.vegetable}`);
+	 * });
 	 */
 	on(methods, pathspec, action) {
 		let regex_info = pathspec instanceof RegExp ? {regex: pathspec, tokens: [] } : pathspec_to_regex(pathspec);
@@ -111,6 +132,10 @@ class ServerRouter
 	 * Adds a route that matches against every request.
 	 * Usually useful for middleware (e.g. error handlers, request loggers, authentication handlers, etc.).
 	 * @param	{Function}	action	The function to execute.
+	 * @example
+	 * router.on_all((context) => {
+	 * 	context.send.plain(200, "Hello, world!");
+	 * });
 	 */
 	on_all(action) {
 		this.actions.push(action);
@@ -138,6 +163,11 @@ class ServerRouter
 	 * @param  {http.ClientRequest} request  The request to handle.
 	 * @param  {http.ServerResponse} response The response object to use to send the response.
 	 * @return {[type]}          [description]
+	 * @example
+	 * const server = http.createServer((request, response) => {
+	 * 	router.handle(request, response);
+	 * });
+	 * server.listen(3500, "127.0.0.1", () => console.log("Listening on http://127.0.0.1:3500/"));
 	 */
 	async handle(request, response) {
 		let context = new RouterContext(request, response),
