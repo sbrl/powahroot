@@ -31,7 +31,7 @@
 	"devDependencies": {
 		"@types/cookie": "^0.4.0",
 		"@types/event-emitter-es6": "^1.1.0",
-		"documentation": "^13.0.1",
+		"documentation": "^13.0.2",
 		"event-emitter-es6": "^1.1.5"
 	}
 }
