@@ -18,7 +18,7 @@ class ServerRouter
 		 * @type {Array<Function>}
 		 */
 		this.actions = [];
-		/** Whether to activate versbose mode. Useful for debugging the router. */
+		/** Whether to activate verbose mode. Useful for debugging the router. */
 		this.verbose = verbose;
 		
 		this.default_action = async (ctx) => {
