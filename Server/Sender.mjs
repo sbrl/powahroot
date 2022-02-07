@@ -34,7 +34,7 @@ class Sender {
 	 * @param	{string}	html_string	The string of HTML to send.
 	 * @return	{void}
 	 */
-	html_str(status_code, html_string) {
+	html_string(status_code, html_string) {
 		this.string(status_code, "text/html", html_string);
 	}
 	/**
