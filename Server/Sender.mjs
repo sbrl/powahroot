@@ -29,6 +29,30 @@ class Sender {
 	}
 	
 	/**
+	 * Sends a given string as a HTML response
+	 * @param	{number}	status_code	The status code to return.
+	 * @param	{string}	html_string	The string of HTML to send.
+	 * @return	{void}
+	 */
+	html_str(status_code, html_string) {
+		this.string(status_code, "text/html", html_string);
+	}
+	/**
+	 * Sends a given string with a given content-type.
+	 * @param	{number}	status_code	The status code to return.
+	 * @param	{number}	type		The content-type header value to send. This should be a MIME type, such as "text/html".
+	 * @param	{string}	str			The string to send.
+	 * @return	{void}
+	 */
+	string(status_code, type, str) {
+		this.response.writeHead(status_code, {
+			"content-type": type,
+			"content-length": Buffer.byteLength(str, "utf8")
+		});
+		this.response.end(str);
+	}
+	
+	/**
 	 * Sends a plain text response.
 	 * @param  {number} status_code The HTTP status code to return.
 	 * @param  {string} data        The data to send.
