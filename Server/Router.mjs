@@ -160,12 +160,13 @@ class ServerRouter
 	
 	/**
 	 * Handles the specified request.
-	 * @param  {http.ClientRequest} request  The request to handle.
-	 * @param  {http.ServerResponse} response The response object to use to send the response.
-	 * @return {[type]}          [description]
+	 * Don't forget to await the Promise!
+	 * @param	{http.ClientRequest}	request	The request to handle.
+	 * @param	{http.ServerResponse}	response	The response object to use to send the response.
+	 * @return	{Promise}	A Promise that resolves when handling is complete.
 	 * @example
-	 * const server = http.createServer((request, response) => {
-	 * 	router.handle(request, response);
+	 * const server = http.createServer(async (request, response) => {
+	 * 	await router.handle(request, response);
 	 * });
 	 * server.listen(3500, "127.0.0.1", () => console.log("Listening on http://127.0.0.1:3500/"));
 	 */

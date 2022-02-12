@@ -74,7 +74,7 @@ router.get("/files/::filepath", (context, _next) => context.send.plain(200, `You
 // .....
 
 // Later, when you've got a request / response pair to handle:
-router.handle(request, response);
+await router.handle(request, response);
 ```
 
 The `context` argument there is of type `RouterContext`. Check out the API reference (link below) to learn about the other useful properties it has.
