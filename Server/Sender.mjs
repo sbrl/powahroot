@@ -38,6 +38,15 @@ class Sender {
 		this.string(status_code, "text/html", html_string);
 	}
 	/**
+	 * Sends a given thing of any type as a JSON response.
+	 * @param	{number}	status_code	The status code to return.
+	 * @param	{any}		obj			The thing to send - will be converted to JSON.
+	 * @return	{void}
+	 */
+	json(status_code, obj) {
+		this.string(status_code, "application/json", obj);
+	}
+	/**
 	 * Sends a given string with a given content-type.
 	 * @param	{number}	status_code	The status code to return.
 	 * @param	{number}	type		The content-type header value to send. This should be a MIME type, such as "text/html".
