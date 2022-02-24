@@ -44,7 +44,7 @@ class Sender {
 	 * @return	{void}
 	 */
 	json(status_code, obj) {
-		this.string(status_code, "application/json", JSON.parse(obj));
+		this.string(status_code, "application/json", JSON.stringify(obj));
 	}
 	/**
 	 * Sends a given string with a given content-type.
