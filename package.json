@@ -8,7 +8,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/sbrl/powerroot.git"
+		"url": "git+https://github.com/sbrl/powahroot.git"
 	},
 	"keywords": [
 		"routing",
@@ -17,7 +17,7 @@
 	"author": "Starbeamrainbowlabs",
 	"license": "MPL-2.0",
 	"bugs": {
-		"url": "https://github.com/sbrl/powerroot/issues"
+		"url": "https://github.com/sbrl/powahroot/issues"
 	},
 	"homepage": "https://github.com/sbrl/powahroot#readme",
 	"funding": {
