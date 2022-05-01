@@ -9,6 +9,8 @@ _Powahroot_ is a pair of micro routing frameworks, presented as an ES6 module:
 
 It's based on [`rill`](https://www.npmjs.com/package/rill) (see the npm package bearing the name), but stripped down and simplified.
 
+- **Current version:** ![current npm version - see the GitHub releases](https://img.shields.io/npm/v/powahroot)
+- **Changelog:** https://github.com/sbrl/powahroot/blob/main/CHANGELOG.md
 
 ## Getting Started
 Install powahroot as a dependency with npm:
