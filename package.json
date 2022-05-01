@@ -1,6 +1,6 @@
 {
 	"name": "powahroot",
-	"version": "1.2.5",
+	"version": "1.2.6",
 	"description": "Client and server-side routing micro frameworks",
 	"main": "index.mjs",
 	"scripts": {
