@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Make sure the current directory is the location of this script to simplify matters
-cd "$(dirname $(readlink -f $0))";
+#shellcheck disable=SC1090
+cd "$(dirname "$(readlink -f $0)")" || { echo "Error: Failed to cd to script directory!" >&2; exit 1; };
 ################
 ### Settings ###
 ################
@@ -107,6 +108,8 @@ task_docs-watch() {
 	while :; do # : = infinite loop
 		# Wait for an update
 		# inotifywait's non-0 exit code forces an exit for some reason :-/
+		# We explicitly *want* word splitting here
+		#shellcheck disable=SC2046
 		inotifywait -qr --event modify --format '%:e %f' $(find . -iname "*.mjs" -not -path "./node_modules/*") ./docs.css;
 		
 		# Rebuild the docs
@@ -178,4 +181,4 @@ task_ci() {
 
 ###############################################################################
 
-tasks_run $@;
+tasks_run "$@";
