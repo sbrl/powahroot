@@ -14,6 +14,11 @@ npm install --save powahroot
 
 -----
 
+
+## v1.2.7
+- Update dependencies to fix security issues
+
+
 ## v1.2.6
  - Update dependencies
  - Create this (long overdue) changelog
