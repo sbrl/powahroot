@@ -1,6 +1,7 @@
 "use strict";
 
 import url from 'url';
+import querystring from 'querystring';
 
 import Sender from './Sender.mjs';
 import RequestEnvironment from './RequestEnvironment.mjs';
@@ -9,6 +10,19 @@ import RequestEnvironment from './RequestEnvironment.mjs';
  * Contains context information about a single request / response pair.
  */
 class RouterContext {
+	/**
+	 * Returns the parsed querystring from the request url, or an empty object if no query string was found.
+	 * 
+	 * NOTE FROM THE NODE.JS DOCS: The object returned by the querystring.parse() method [used in this getter] does not prototypically inherit from the JavaScript Object. This means that typical Object methods such as obj.toString(), obj.hasOwnProperty(), and others are not defined and will not work.
+	 *
+	 * @return  {Object}  The parsed query string as an object, or an empty object.
+	 */
+	get querystring() {
+		const qs = this.url.querystring;
+		if(qs.query == null) return {};
+		return querystring.parse(qs);
+	}
+	
 	constructor(in_request, in_response) {
 		/**
 		 * The Node.JS request object 
