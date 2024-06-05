@@ -33,5 +33,13 @@
 		"@types/cookie": "^0.5.4",
 		"@types/event-emitter-es6": "^1.1.4",
 		"documentation": "^14.0.2"
-	}
+	},
+	"files": [
+		"index.mjs",
+		"Client.mjs",
+		"Server.mjs",
+		"Client/",
+		"Server/",
+		"Shared/"
+	]
 }
