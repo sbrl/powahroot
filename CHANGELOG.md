@@ -15,6 +15,10 @@ npm install --save powahroot
 -----
 
 
+## v1.2.9
+- Fix embarrassing bug in new `RequestContext.querystring` 
+
+
 ## v1.2.8
 - Add convenience getter `RequestContext.querystring`
 

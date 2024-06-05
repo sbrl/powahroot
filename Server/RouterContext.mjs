@@ -18,9 +18,8 @@ class RouterContext {
 	 * @return  {Object}  The parsed query string as an object, or an empty object.
 	 */
 	get querystring() {
-		const qs = this.url.querystring;
-		if(qs.query == null) return {};
-		return querystring.parse(qs);
+		if(this.url.query == null) return {};
+		return querystring.parse(this.url.query);
 	}
 	
 	constructor(in_request, in_response) {
