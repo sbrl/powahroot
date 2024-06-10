@@ -19,7 +19,7 @@ class RouterContext {
 	 */
 	get querystring() {
 		if(this.url.query == null) return {};
-		return querystring.parse(this.url.query);
+		return querystring.parse(this.url.search.substring(1));
 	}
 	
 	constructor(in_request, in_response) {
@@ -35,7 +35,12 @@ class RouterContext {
 		this.response = in_response;
 		/**
 		 * The parsed request URL
-		 * @type	{URL}
+		 * 
+		 * The built-in Node.js `url` module (and NOT the browser-like `URL` class) is used for parsing URLs.
+		 * 
+		 * See the `querystring` getter for a portable way to grab the parsed query string.
+		 * 
+		 * @type	{Url}
 		 */
 		this.url = url.parse(this.request.url, true);
 		/**
