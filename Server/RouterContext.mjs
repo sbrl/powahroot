@@ -18,7 +18,7 @@ class RouterContext {
 	 * @return  {Object}  The parsed query string as an object, or an empty object.
 	 */
 	get querystring() {
-		if(this.url.query == null) return {};
+		if(this.url.search == null) return {};
 		return querystring.parse(this.url.search.substring(1));
 	}
 	

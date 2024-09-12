@@ -14,6 +14,9 @@ npm install --save powahroot
 
 -----
 
+## v1.2.11
+- ....and another one. Just why?
+
 
 ## v1.2.10
 - Fix another embarrassing bug in new `RequestContext.querystring` and document behaviour
