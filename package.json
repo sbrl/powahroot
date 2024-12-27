@@ -30,7 +30,6 @@
 		"nightink": "^1.0.2"
 	},
 	"devDependencies": {
-		"@types/cookie": "^1.0.0",
 		"@types/event-emitter-es6": "^1.1.4",
 		"documentation": "^14.0.3"
 	},
@@ -38,8 +37,8 @@
 		"index.mjs",
 		"Client.mjs",
 		"Server.mjs",
-		"Client/",
-		"Server/",
-		"Shared/"
+		"Client/**",
+		"Server/**",
+		"Shared/**"
 	]
 }
