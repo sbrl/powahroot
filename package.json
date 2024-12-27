@@ -25,14 +25,14 @@
 		"url": "https://liberapay.com/sbrl"
 	},
 	"dependencies": {
-		"cookie": "^0.6.0",
+		"cookie": "^1.0.2",
 		"event-emitter-es6": "^1.1.5",
 		"nightink": "^1.0.2"
 	},
 	"devDependencies": {
-		"@types/cookie": "^0.5.4",
+		"@types/cookie": "^1.0.0",
 		"@types/event-emitter-es6": "^1.1.4",
-		"documentation": "^14.0.2"
+		"documentation": "^14.0.3"
 	},
 	"files": [
 		"index.mjs",

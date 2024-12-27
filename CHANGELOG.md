@@ -14,6 +14,11 @@ npm install --save powahroot
 
 -----
 
+
+## v1.2.12
+- Update dependencies
+
+
 ## v1.2.11
 - ....and another one. Just why?
 
