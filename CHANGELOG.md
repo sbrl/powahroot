@@ -15,6 +15,10 @@ npm install --save powahroot
 -----
 
 
+## v1.3.0 (unreleased)
+- Sender: Append `; charset=utf-8` to `content-type` when sending plain / html responses
+
+
 ## v1.2.12
 - Update dependencies
 

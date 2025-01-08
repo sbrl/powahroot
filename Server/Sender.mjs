@@ -35,7 +35,7 @@ class Sender {
 	 * @return	{void}
 	 */
 	html_string(status_code, html_string) {
-		this.string(status_code, "text/html", html_string);
+		this.string(status_code, "text/html; charset=utf-8", html_string);
 	}
 	/**
 	 * Sends a given thing of any type as a JSON response.
@@ -68,7 +68,7 @@ class Sender {
 	 */
 	plain(status_code, data) {
 		this.response.writeHead(status_code, {
-			"content-type": "text/plain",
+			"content-type": "text/plain; charset=utf-8",
 			"content-length": Buffer.byteLength(data, "utf8"),
 		});
 		this.response.end(data);
