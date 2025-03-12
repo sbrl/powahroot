@@ -59,7 +59,7 @@ class RouterContext {
 		 * The environment object.
 		 * State variables that need to be attached to a specific request can 
 		 * go in here.
-		 * @type	{Object}
+		 * @type	{RequestEnvironment}
 		 */
 		this.env = new RequestEnvironment(this.request);
 	}
