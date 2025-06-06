@@ -46,6 +46,6 @@ npm install --save powahroot
 
 
 ## v1.2.6
- - Update dependencies
  - Create this (long overdue) changelog
+ - Update dependencies
  - Rename `master` → `main`
