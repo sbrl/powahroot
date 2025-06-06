@@ -43,7 +43,7 @@ class ServerRouter
 	/**
 	 * Shortcut function for attaching an action to head requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
-	 * @param	{Fuction}		action		The function to execute.
+	 * @param	{Function}		action		The function to execute.
 	 * @example
 	 * router.head("/location/:name/status", (context, _next) => {
 	 * 	context.send.plain(200, `Coming in from ${context.params.type} - status ok!`);
@@ -53,7 +53,7 @@ class ServerRouter
 	/**
 	 * Shortcut function for attaching an action to get requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
-	 * @param	{Fuction}	action	The function to execute.
+	 * @param	{Function}	action	The function to execute.
 	 * @example
 	 * router.get("/tree/:type", (context, _next) => {
 	 * 	context.send.plain(200, `Hello, I am a ${context.params.type}`);
@@ -63,7 +63,7 @@ class ServerRouter
 	/**
 	 * Shortcut function for attaching an action to post requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
-	 * @param	{Fuction}	action	The function to execute.
+	 * @param	{Function}	action	The function to execute.
 	 * @example
 	 * router.post("/loaction/:name/update", (context, _next) => {
 	 * 	context.send.plain(501, `Hello from ${context.params.name}! I don't yet support updating my firmware.\nYou asked me to update to version ${context.post_data.version}.`);
@@ -74,19 +74,19 @@ class ServerRouter
 	/**
 	 * Shortcut function for attaching an action to put requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
-	 * @param	{Fuction}	action	The function to execute.
+	 * @param	{Function}	action	The function to execute.
 	 */
 	put(pathspec, action) { this.on(["put"], pathspec, action); }
 	/**
 	 * Shortcut function for attaching an action to delete requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
-	 * @param	{Fuction}	action	The function to execute.
+	 * @param	{Function}	action	The function to execute.
 	 */
 	delete(pathspec, action) { this.on(["delete"], pathspec, action); }
 	/**
 	 * Shortcut function for attaching an action to options requests. Full function: on
 	 * @param	{string|RegExp}	pathspec	The pathspec that the route should match against.
-	 * @param	{Fuction}	action	The function to execute.
+	 * @param	{Function}	action	The function to execute.
 	 * @example
 	 * router.options("/location/:name/status", (context, _next) => {
 	 * 	context.send.plain(200, `I support these actions:\n - GET: Get my status\n - POST: Set my status\n - OPTIONS: Show this message`);;
