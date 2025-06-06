@@ -18,6 +18,7 @@ function depostify(postdata) {
 
 /**
  * Parses URL-encoded POST data out into the context.env.post_data variable.
+ * TODO move this to the dedicated middleware
  * @param	{RouterContext}	context	The context object.
  * @param	{Function}		next	Function to invoke the next middleware item
  */

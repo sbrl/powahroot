@@ -1,0 +1,54 @@
+"use strict";
+
+// TODO test this, and all the other bits of middleware we've written
+
+/**
+ * Middleware that reads the request body from the client, parses it as JSON, and attaches it to `context.env.body`.
+ * Does nothing if the client doesn't set the correct content-type of application/json.
+ * 
+ * NOTE: This is a function that returns the REAL middleware function! This is because we need some way to pass options to it elegantly without requiring function binding etc which looks bad.
+ * @param	{number}	[max_length_body=2*1024*1024]		The maximum length of the client body to accept before returning a HTTP error 413 content too large. Defaults to 2MB,
+ * @return  {function}	The real middleware function.
+ */
+export default function (max_length_body=2*1024*1024) {
+	return function middleware_parse_json(ctx, next) {
+		return new Promise((resolve, reject) => {
+			if(typeof ctx.request.headers["content-type"] != "string" || ctx.request.headers["content-type"].toLowerCase().trim() !== `application/json`) {
+				ctx.send.plain(406, `Invalid content-type (expected application/json).`);
+				resolve(); // reject() causes an error, and that isn't what we want to do!
+			}
+			
+			let body = ``;
+			let body_length = 0;
+			const handle_error = function(msg) {
+				ctx.request.off(`data`, handle_data);
+				ctx.request.off(`end`, handle_end);
+				ctx.request.off(`error`, handle_error);
+				reject(msg);
+			}
+			const handle_data = function(chunk) {
+				if(body_length > max_length_body) {
+					ctx.send.plain(413, `Request payload too large`);
+					resolve(); // reject causes an error, and that's not what we wanna do
+					return;
+				}
+				body += chunk;
+				body_length += chunk.length;
+			}
+			const handle_end = function() {
+				try {
+					ctx.env.body = JSON.parse(body);
+				} catch(error) {
+					ctx.send.plain(400, `JSON syntax error`);
+					resolve(); // reject causes an error, and that's not what we wanna do
+					return;
+				}
+				// Only call next if we were fully successful
+				next().then(resolve);
+			}
+			ctx.request.once(`error`, handle_error);
+			ctx.request.on(`data`, handle_data);
+			ctx.request.once(`end`, handle_end);
+		});
+	}	
+}

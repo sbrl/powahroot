@@ -27,7 +27,8 @@
 	"dependencies": {
 		"cookie": "^1.0.2",
 		"event-emitter-es6": "^1.1.5",
-		"nightink": "^1.0.2"
+		"nightink": "^1.0.2",
+		"pretty-ms": "^9.2.0"
 	},
 	"devDependencies": {
 		"@types/event-emitter-es6": "^1.1.4",
