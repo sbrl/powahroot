@@ -38,11 +38,15 @@ class RouterContext {
 		 * 
 		 * The built-in Node.js `url` module (and NOT the browser-like `URL` class) is used for parsing URLs.
 		 * 
+		 * This is because the WHATWG URL API does not support relative URLS: <https://github.com/nodejs/node/issues/12682>
+		 * 
 		 * See the `querystring` getter for a portable way to grab the parsed query string.
 		 * 
 		 * @type	{URL}
 		 */
-		this.url = new URL(this.request.url, true);
+		this.url = url.parse(this.request.url);
+		// TODO only put this into service if we're forced to through a removal of url.parse()
+		// this.url = new URL(this.request.url, `${in_request.protocol??`null`}://${in_request.host??`null`}`);
 		/**
 		 * The url parameters parsed out by the router
 		 * @type	{Object}

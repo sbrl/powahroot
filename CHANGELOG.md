@@ -19,7 +19,6 @@ npm install --save powahroot
 - Sender: Append `; charset=utf-8` to `content-type` when sending plain / html responses
 - Fix type of `RouterContext.env` to be `RequestEnvironment` and not `Object`
 - Update dependencies
-- Update `RouterContext.url` to use WHATWG `URL` API instead of Node.js `url.parse` API
 
 
 ## v1.2.12
