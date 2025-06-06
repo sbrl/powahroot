@@ -94,7 +94,7 @@ task_docs() {
 	subtask_end $? "Failed to link logo";
 	
 	subtask_begin "Applying extra CSS";
-	cat docs.css >>"$(find "${docs_output_folder}" -iname "*.css" -print -quit)";
+	cat docs.css >>"$(find "${docs_output_folder}" -iname "style.css" -print -quit)";
 	subtask_end $? "Failed to apply additional CSS";
 	
 	task_end $? "Failed to render API docs";
