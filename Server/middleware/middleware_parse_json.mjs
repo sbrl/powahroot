@@ -19,28 +19,35 @@
  * 
  * // Note that ordering matters here! If they were called the other way around then the `.post()` call would be called first before the JSON parser middleware has been registered!
  * // Note also that you would want to register the error handler BEFORE the JSON parser.... because in the event the JSON parser crashes it would otherwise bring down the entire server!
- * router.on_all(middleware_parse_json);
+ * router.on_all(middleware_parse_json(100)); // Allow a max of 100 BYTES of JSON
  * router.post(`/some_other_route`, another_handler);
  */
 export default function (max_length_body=2*1024*1024) {
 	return function middleware_parse_json(ctx, next) {
 		return new Promise((resolve, reject) => {
+			console.log(`[DEBUG:middleware_parse_json] START`);
 			if(typeof ctx.request.headers["content-type"] != "string" || ctx.request.headers["content-type"].toLowerCase().trim() !== `application/json`) {
 				ctx.send.plain(406, `Invalid content-type (expected application/json).`);
 				resolve(); // reject() causes an error, and that isn't what we want to do!
+				return; // don't continue to parse if we have already handled this
 			}
 			
 			let body = ``;
 			let body_length = 0;
-			const handle_error = function(msg) {
+			const handle_error = function (msg) {
 				ctx.request.off(`data`, handle_data);
 				ctx.request.off(`end`, handle_end);
-				ctx.request.off(`error`, handle_error);
+				// no need to remove handle_error since we use .once() anyway
 				reject(msg);
 			}
-			const handle_data = function(chunk) {
+			const handle_data = function (chunk) {
 				if(body_length > max_length_body) {
 					ctx.send.plain(413, `Request payload too large`);
+
+					// Remove stray event handlers to avoid memory leaks
+					ctx.request.off(`error`, handle_error);
+					ctx.request.off(`data`, handle_data);
+					ctx.request.off(`end`, handle_end);
 					resolve(); // reject causes an error, and that's not what we wanna do
 					return;
 				}
@@ -52,9 +59,19 @@ export default function (max_length_body=2*1024*1024) {
 					ctx.env.body = JSON.parse(body);
 				} catch(error) {
 					ctx.send.plain(400, `JSON syntax error`);
+					
+					// Remove stray event handlers to avoid memory leaks
+					ctx.request.off(`error`, handle_error);
+					ctx.request.off(`data`, handle_data);
+					
 					resolve(); // reject causes an error, and that's not what we wanna do
 					return;
 				}
+				
+				// Remove stray event handlers to avoid memory leaks
+				ctx.request.off(`error`, handle_error);
+				ctx.request.off(`data`, handle_data);
+				
 				// Only call next if we were fully successful
 				next().then(resolve);
 			}

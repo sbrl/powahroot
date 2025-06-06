@@ -28,7 +28,7 @@ class RequestEnvironment {
 		 * Note: This is not prefilled automatically. You need to attach some middleware for this to work. Since v1.3.0 powahroot comes with some basic default middleware such as `middleware_parse_json` populates this variable.
 		 * @type {Object|null}
 		 */
-		this.post_data = null;
+		this.body = null;
 	}
 }
 

@@ -18,6 +18,7 @@ npm install --save powahroot
 ## v1.3.0 (unreleased)
 - Sender: Append `; charset=utf-8` to `content-type` when sending plain / html responses
 - Fix type of `RouterContext.env` to be `RequestEnvironment` and not `Object`
+	- Rename `RequestEnvironment.post_data` to `RequestEnvironment.body`
 - Add builtin server-side middleware:
 	- `middleware_log_requests` - Log requests to stdout
 	- `middleware_catch_errors` - Catch and handle errors in route handlers
