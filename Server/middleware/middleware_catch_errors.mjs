@@ -40,7 +40,7 @@ function stringify_error(error) {
 
 /**
  * Handles a given error thrown by a given RequestContext.
- * @protected
+ * @private
  * @param  {Error} error   The error that was thrown.
  * @param  {RequestContext} context The RequestContext from which the error was thrown.
  */
