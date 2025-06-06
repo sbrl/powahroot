@@ -21,6 +21,19 @@
 	--gutter-width: 20px;
 }
 
+html, body {
+	font-size: 120%;
+}
+
+pre, code, span.code {
+	font-size: 1.2rem;
+}
+.caret-right { font-size: 1.5em; }
+
+#split-right {
+	padding-left: 2em;
+}
+
 #split-left h3 {
 	image-rendering: crisp-edges;
 	background: url(../logo.png) top left / var(--logo-size) no-repeat;
@@ -73,4 +86,18 @@
 }
 ::placeholder {
 	color: var(--green-d);
+}
+
+a {
+	text-decoration: underline !important;
+	font-weight: bold;
+}
+a:focus { outline: 0.2em solid var(--bright-c); }
+
+#split-left a {
+	filter: brightness(1.8) contrast(2);
+	font-size: 1.2rem;
+}
+#split-right a {
+	filter: brightness(0.8) contrast(2);
 }
