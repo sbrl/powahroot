@@ -25,7 +25,6 @@
 export default function (max_length_body=2*1024*1024) {
 	return function middleware_parse_json(ctx, next) {
 		return new Promise((resolve, reject) => {
-			console.log(`[DEBUG:middleware_parse_json] START`);
 			if(typeof ctx.request.headers["content-type"] != "string" || ctx.request.headers["content-type"].toLowerCase().trim() !== `application/json`) {
 				ctx.send.plain(406, `Invalid content-type (expected application/json).`);
 				resolve(); // reject() causes an error, and that isn't what we want to do!
