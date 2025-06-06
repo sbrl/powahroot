@@ -7,6 +7,7 @@ import l from './primitives/Log.mjs';
 /**
  * Hashes a string to a numerical value.
  * NOT CRYPTOGRAPHICALLY SECURE!
+ * @private
  * @param	{string}	str		The string to hash.
  * @return	{number}	The resulting hashed value as a number.
  */

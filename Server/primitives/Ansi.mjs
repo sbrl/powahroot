@@ -4,10 +4,12 @@ import tty from 'tty';
 
 /**
  * Generates various VT100 ANSI escape sequences.
+ * 
  * Ported from C#.
- * @licence MPL-2.0 <https://www.mozilla.org/en-US/MPL/2.0/>
- * @source https://gist.github.com/a4edd3204a03f4eedb79785751efb0f3#file-ansi-cs
- * @author Starbeamrainbowlabs
+ * 
+ * This is a powahroot-internal class that @sbrl copies across various projects, but can be used outside. There is no guarantee of stability, though this API has been pretty stable.
+ * 
+ * Author: Starbeamrainbowlabs
  * GitHub: @sbrl | Twitter: @SBRLabs | Reddit: u/Starbeamrainbowlabs
  ***** Changelog *****
  * 27th March 2019:
@@ -20,6 +22,11 @@ import tty from 'tty';
  * 24th January 2025:
  * 	- Wow, this class has been used in a lotta places!
  * 	- Add support for FORCE_COLOR env var (no standard)
+ *********************
+ * @licence MPL-2.0 <https://www.mozilla.org/en-US/MPL/2.0/>
+ * @source https://gist.github.com/a4edd3204a03f4eedb79785751efb0f3#file-ansi-cs
+ * @author Starbeamrainbowlabs
+ * @protected
  */
 class Ansi {
 	constructor() {

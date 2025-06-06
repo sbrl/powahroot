@@ -15,6 +15,9 @@ const LOG_LEVELS = {
 
 /**
  * Simple logging class
+ * 
+ * This is a powahroot-internal class, but can be used outside. There is no guarantee of stability, though this API has been pretty stable.
+ * @protected
  * @licence MPL-2.0
  * @author Starbeamrainbowlabs
  * @changelog:

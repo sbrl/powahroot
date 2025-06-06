@@ -15,7 +15,10 @@ npm install --save powahroot
 -----
 
 
-## v1.3.0
+## v1.3.1 - 6th June 2025
+- `index.mjs`: Also export middleware so that `documentation` (the API docs generate I use) can generate docs for the middleware also
+
+## v1.3.0 - 6th June 2025
 - Sender: Append `; charset=utf-8` to `content-type` when sending plain / html responses
 - Fix type of `RouterContext.env` to be `RequestEnvironment` and not `Object`
 	- Rename `RequestEnvironment.post_data` to `RequestEnvironment.body`
