@@ -6,9 +6,21 @@
  * Middleware that reads the request body from the client, parses it as JSON, and attaches it to `context.env.body`.
  * Does nothing if the client doesn't set the correct content-type of application/json.
  * 
- * NOTE: This is a function that returns the REAL middleware function! This is because we need some way to pass options to it elegantly without requiring function binding etc which looks bad.
+ * **IMPORTANT:** Unlike the other builtin middlewares, this is a function that returns the REAL middleware function! This is because we need some way to pass options to it elegantly without requiring function binding etc which looks bad.
+ * 
  * @param	{number}	[max_length_body=2*1024*1024]		The maximum length of the client body to accept before returning a HTTP error 413 content too large. Defaults to 2MB,
  * @return  {function}	The real middleware function.
+ * @example
+ * import { ServerRouter, middleware_parse_json } from 'powahroot/Server.mjs';
+ * 
+ * // ...
+ * 
+ * const router = new ServerRouter((typeof process.env.DEBUG_ROUTES) === "string");
+ * 
+ * // Note that ordering matters here! If they were called the other way around then the `.post()` call would be called first before the JSON parser middleware has been registered!
+ * // Note also that you would want to register the error handler BEFORE the JSON parser.... because in the event the JSON parser crashes it would otherwise bring down the entire server!
+ * router.on_all(middleware_parse_json);
+ * router.post(`/some_other_route`, another_handler);
  */
 export default function (max_length_body=2*1024*1024) {
 	return function middleware_parse_json(ctx, next) {

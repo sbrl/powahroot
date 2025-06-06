@@ -8,6 +8,16 @@ const l = log("middleware:handle_errors");
  * Handles errors thrown by handlers further down the chain. 
  * @param	{RequestContext}	context	The RequestContext object.
  * @param	{Function}			next	The function to call to invoke the next middleware item
+ * @example
+ * import { ServerRouter, middleware_catch_errors } from 'powahroot/Server.mjs';
+ * 
+ * // ...
+ * 
+ * const router = new ServerRouter((typeof process.env.DEBUG_ROUTES) === "string");
+ * 
+ * // Note that ordering matters here! If they were called the other way around then the `.get()` call would be called first before the error handler has been registered!
+ * router.on_all(middleware_catch_errors);
+ * router.get(`/some_other_route`, another_handler);
  */
 async function middleware_catch_errors(context, next) {
 	try {
