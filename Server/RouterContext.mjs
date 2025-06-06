@@ -40,9 +40,9 @@ class RouterContext {
 		 * 
 		 * See the `querystring` getter for a portable way to grab the parsed query string.
 		 * 
-		 * @type	{Url}
+		 * @type	{URL}
 		 */
-		this.url = url.parse(this.request.url, true);
+		this.url = new URL(this.request.url, true);
 		/**
 		 * The url parameters parsed out by the router
 		 * @type	{Object}
