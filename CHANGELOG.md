@@ -15,7 +15,7 @@ npm install --save powahroot
 -----
 
 
-## v1.3.0 (unreleased)
+## v1.3.0
 - Sender: Append `; charset=utf-8` to `content-type` when sending plain / html responses
 - Fix type of `RouterContext.env` to be `RequestEnvironment` and not `Object`
 	- Rename `RequestEnvironment.post_data` to `RequestEnvironment.body`
