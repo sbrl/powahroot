@@ -15,6 +15,10 @@ npm install --save powahroot
 -----
 
 
+## v1.3.2 - 25th September 2025
+- Fix embarrassing crash in new `middleware_catch_errors`
+
+
 ## v1.3.1 - 6th June 2025
 - `index.mjs`: Also export middleware so that `documentation` (the API docs generate I use) can generate docs for the middleware also
 

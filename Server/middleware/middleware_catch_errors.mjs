@@ -60,7 +60,7 @@ async function handle_error(error, context) {
 		context.send.plain(503, production ? msg_nice : msg_full);
 	}
 	catch(error) {
-		l.error(`Error: Caught error while sending response to client: ${format_error(error, settings.verbose)}`);
+		l.error(`Error: Caught error while sending response to client: ${stringify_error(error, settings.verbose)}`);
 	}
 }
 
