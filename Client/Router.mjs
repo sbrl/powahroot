@@ -102,7 +102,7 @@ class ClientRouter extends EventEmitter {
 	 * @example router.navigate_current_hash();
 	 */
 	navigate_current_hash() {
-		this.navigate(window.location.hash.substr(1));
+		this.navigate(window.location.hash.substring(1));
 	}
 }
 
