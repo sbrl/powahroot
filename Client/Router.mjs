@@ -4,6 +4,8 @@ import EventEmitter from 'event-emitter-es6';
 
 import pathspec_to_regex from '../Shared/Pathspec.mjs';
 
+// TODO use WHATWG EventTarget instead of EventEmitter to save on bundle size
+
 /**
  * Client-side request router.
  * You should use this in a browser. If you're not in a browser, you probably want ServerRouter instead.
