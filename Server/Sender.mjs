@@ -62,6 +62,18 @@ class Sender {
 	}
 	
 	/**
+	 * Sends an empty response with the given status code.
+	 * @param	{Number}	status_code	The HTTP status code to respond to the client with.
+	 * @return	{void}
+	 */
+	empty(status_code) {
+		this.response.writeHead(status_code, {
+			"content-length": 0
+		});
+		this.response.end();
+	}
+	
+	/**
 	 * Sends a plain text response.
 	 * @param  {number} status_code The HTTP status code to return.
 	 * @param  {string} data        The data to send.

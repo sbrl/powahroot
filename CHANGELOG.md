@@ -15,6 +15,9 @@ npm install --save powahroot
 -----
 
 
+## v1.4.0 - 26th September 2025
+- Add new `Sender.empty(status_code)` method
+
 ## v1.3.3 - 25th September 2025
 - Fix another embarrassing crash in new `middleware_catch_errors`
 
