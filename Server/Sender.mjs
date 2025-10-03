@@ -90,9 +90,9 @@ class Sender {
 	 * Sends a redirect.
 	 * @param  {number} status_code The HTTP status code to send.
 	 * @param  {string} new_path    The (possibly relative) uri to redirect the client to.
-	 * @param  {string} message     The informational plain-text message to return, just in case.
+	 * @param  {string} [message=""]     The informational plain-text message to return, just in case.
 	 */
-	redirect(status_code, new_path, message) {
+	redirect(status_code, new_path, message=``) {
 		this.response.writeHead(status_code, {
 			"location": new_path,
 			"content-type": "text/plain",

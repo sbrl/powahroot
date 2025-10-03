@@ -17,6 +17,7 @@ npm install --save powahroot
 
 ## 1.4.1 (unreleased)
 - Client: fix deprecated `string.substr()` call
+- Sender: Default to an empty message for `Sender.redirect()`
 
 ## v1.4.0 - 26th September 2025
 - Add new `Sender.empty(status_code)` method
